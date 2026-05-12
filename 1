@@ -1,0 +1,110 @@
+jobs_in_japan_low_japanese = [
+    {
+        "field": "IT / Tech",
+        "roles": [
+            "Software Engineer",
+            "Backend Developer",
+            "Frontend Developer",
+            "Full Stack Developer",
+            "DevOps / SRE",
+            "Machine Learning Engineer",
+            "Data Engineer",
+            "UX/UI Designer (Tech)",
+            "Product Manager",
+            "Engineering Manager",
+        ],
+        "japanese_required": "None / Low",
+        "salary_range_jpy": "6M - 20M / year",
+        "notes": "Highest demand. Many companies use English as primary language.",
+    },
+    {
+        "field": "English Teaching",
+        "roles": [
+            "ALT (Assistant Language Teacher) - JET Program",
+            "Eikaiwa Teacher (NOVA, ECC, Berlitz)",
+            "Preschool English Teacher",
+            "Private English Tutor",
+            "International School Teacher",
+        ],
+        "japanese_required": "None",
+        "salary_range_jpy": "2.7M - 4M / year",
+        "notes": "Bachelor's degree usually required. Visa sponsorship often provided.",
+    },
+    {
+        "field": "Hospitality & Tourism",
+        "roles": [
+            "Hotel Front Desk / Receptionist",
+            "Hotel Kitchen Staff",
+            "Tour Guide (English/multilingual)",
+            "Airport Customer Service",
+            "Travel Agency Staff",
+        ],
+        "japanese_required": "Low / None",
+        "salary_range_jpy": "1.8M - 3M / year",
+        "notes": "Multilingual skills (English, Chinese, Korean) highly valued.",
+    },
+    {
+        "field": "International Recruitment",
+        "roles": [
+            "Recruitment Consultant",
+            "Talent Acquisition Specialist",
+            "HR Recruiter (Bilingual)",
+        ],
+        "japanese_required": "None (Business English required)",
+        "salary_range_jpy": "3.6M - 10M+ / year",
+        "notes": "Competitive, commission-based bonuses possible. Top firms: Robert Walters, Michael Page, Hays.",
+    },
+    {
+        "field": "Creative & Design",
+        "roles": [
+            "UX/UI Designer",
+            "Game Visual Director",
+            "Lead Artist",
+            "Graphic Designer",
+            "Growth Marketing",
+        ],
+        "japanese_required": "None / Low",
+        "salary_range_jpy": "4M - 12M / year",
+        "notes": "Many studios accept overseas applicants.",
+    },
+    {
+        "field": "Engineering (Automotive / Robotics)",
+        "roles": [
+            "Mechanical Engineer",
+            "Robotics Engineer",
+            "Embedded Systems Engineer",
+            "Automotive Engineer",
+        ],
+        "japanese_required": "Low to Intermediate",
+        "salary_range_jpy": "5M - 12M / year",
+        "notes": "Some roles require business-level Japanese. Global companies often use English.",
+    },
+]
+
+# ── Display ──────────────────────────────────────────────────────────────────
+
+def display_jobs(jobs: list[dict]) -> None:
+    print("=" * 60)
+    print("  JOBS IN JAPAN WITH LOW / NO JAPANESE REQUIREMENT")
+    print("=" * 60)
+
+    for i, job in enumerate(jobs, start=1):
+        print(f"\n{'─' * 60}")
+        print(f"  [{i}] {job['field'].upper()}")
+        print(f"{'─' * 60}")
+        print(f"  Japanese Required : {job['japanese_required']}")
+        print(f"  Salary Range      : ¥{job['salary_range_jpy']}")
+        print(f"  Notes             : {job['notes']}")
+        print(f"\n  Roles:")
+        for role in job["roles"]:
+            print(f"    • {role}")
+
+    print("\n" + "=" * 60)
+    print(f"  Total fields: {len(jobs)}")
+    total_roles = sum(len(j["roles"]) for j in jobs)
+    print(f"  Total roles listed: {total_roles}")
+    print("=" * 60)
+
+
+if __name__ == "__main__":
+    display_jobs(jobs_in_japan_low_japanese)
