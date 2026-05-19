@@ -1,0 +1,9 @@
+Here's a Python example using 5 conditional logic checks to determine product pricing:Here's an interactive product price calculator using 5 logic tiers:The calculator applies 5 logic checks in sequence:
+
+1. **Bulk quantity discount** — tiered discounts (5% → 20%) based on how many units you order
+2. **Member discount** — an extra 5% off for registered members
+3. **Coupon code** — try `SAVE10`, `FLASH20`, or `VIP15`
+4. **Large order bonus** — additional 5–10% off when the subtotal exceeds ¥100,000
+5. **Price floor** — ensures the final price never drops below 60% of the base, no matter how many discounts stack
+
+The Python code at the bottom updates live to reflect your current inputs — you can copy it directly into your project.
