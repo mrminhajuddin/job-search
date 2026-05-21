@@ -1,0 +1,130 @@
+import random
+import string
+
+def generate_grid(words, size=12):
+    """Place words into a grid, fill remaining cells with random letters."""
+    grid = [['' for _ in range(size)] for _ in range(size)]
+    placed = []
+
+    directions = [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
+
+    for word in words:
+        placed_word = False
+        for _ in range(200):
+            dr, dc = random.choice(directions)
+            r, c = random.randint(0, size-1), random.randint(0, size-1)
+            cells = []
+            ok = True
+            for i in range(len(word)):
+                nr, nc = r + dr*i, c + dc*i
+                if not (0 <= nr < size and 0 <= nc < size):
+                    ok = False; break
+                if grid[nr][nc] and grid[nr][nc] != word[i]:
+                    ok = False; break
+                cells.append((nr, nc))
+            if ok:
+                for i, (nr, nc) in enumerate(cells):
+                    grid[nr][nc] = word[i]
+                placed.append({'word': word, 'cells': cells})
+                placed_word = True
+                break
+        if not placed_word:
+            print(f"  Warning: could not place '{word}'")
+
+    for r in range(size):
+        for c in range(size):
+            if not grid[r][c]:
+                grid[r][c] = random.choice(string.ascii_uppercase)
+
+    return grid, placed
+
+
+def solve(grid, words):
+    """Find all words in the grid. Returns dict of word -> list of (r,c) cells."""
+    size = len(grid)
+    directions = [(0,1),(1,0),(0,-1),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
+    dir_names = ['→','↓','←','↑','↘','↙','↗','↖']
+    results = {}
+
+    for word in words:
+        for r in range(size):
+            for c in range(size):
+                for (dr, dc), dname in zip(directions, dir_names):
+                    cells = []
+                    match = True
+                    for i, ch in enumerate(word):
+                        nr, nc = r + dr*i, c + dc*i
+                        if not (0 <= nr < size and 0 <= nc < size):
+                            match = False; break
+                        if grid[nr][nc] != ch:
+                            match = False; break
+                        cells.append((nr, nc))
+                    if match:
+                        results[word] = {'cells': cells, 'direction': dname,
+                                         'start': (r, c), 'end': cells[-1]}
+                        break
+                if word in results:
+                    break
+
+    return results
+
+
+def print_grid(grid, found_cells=None):
+    """Pretty-print the grid, highlighting found cells with brackets."""
+    found_cells = found_cells or set()
+    size = len(grid)
+    print("    " + "  ".join(f"{c:2}" for c in range(size)))
+    print("    " + "---" * size)
+    for r, row in enumerate(grid):
+        line = f"{r:2} | "
+        for c, ch in enumerate(row):
+            if (r, c) in found_cells:
+                line += f"[{ch}]"
+            else:
+                line += f" {ch} "
+        print(line)
+
+
+# --- Run demo ---
+
+WORD_SETS = [
+    ['PYTHON','SCRIPT','LOOP','CLASS','FUNCTION','LIST','TUPLE','DICT'],
+    ['ARRAY','STACK','QUEUE','GRAPH','TREE','NODE','HASH','SORT'],
+    ['SEARCH','BINARY','BUBBLE','MERGE','QUICK','INDEX','CACHE','DEBUG'],
+]
+
+words = random.choice(WORD_SETS)
+print("=" * 50)
+print("WORD SEARCH SOLVER")
+print("=" * 50)
+print(f"\nWords to find: {', '.join(words)}\n")
+
+grid, placed_info = generate_grid(words, size=12)
+
+print("Generated grid:")
+print_grid(grid)
+
+print("\nSolving...\n")
+results = solve(grid, words)
+
+all_found_cells = set()
+for w, info in results.items():
+    for cell in info['cells']:
+        all_found_cells.add(cell)
+
+print("Solution (found cells highlighted with [ ]):")
+print_grid(grid, all_found_cells)
+
+print("\nResults:")
+print("-" * 40)
+for word in words:
+    if word in results:
+        info = results[word]
+        r, c = info['start']
+        er, ec = info['end']
+        print(f"  ✓ {word:<12} {info['direction']}  start=({r},{c})  end=({er},{ec})")
+    else:
+        print(f"  ✗ {word:<12} NOT FOUND")
+
+found_count = len(results)
+print(f"\nFound {found_count}/{len(words)} words.")
